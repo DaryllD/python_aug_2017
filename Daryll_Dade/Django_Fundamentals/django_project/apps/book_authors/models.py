@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
+from ..users.models import User
 # class BookManager(models.Manager):
 #     def createBook(self,post):
 #         book = Book.objects.create(
@@ -24,6 +24,8 @@ class Book(models.Model):
     title = models.CharField(max_length=255)
     desc = models.TextField(max_length=1000)
     author = models.ManyToManyField(Author, related_name="books")
+    uploaded_by = models.ManyToManyField(User, related_name="uploads")
+    liked_by = models.ManyToManyField(User, related_name="likes")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 #    objects = BookManager()

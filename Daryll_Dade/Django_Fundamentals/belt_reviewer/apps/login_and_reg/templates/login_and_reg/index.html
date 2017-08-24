@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Welcome</title>
+    </head>
+    <body>
+        <h2>Welcome!</h2>
+        <div>
+            <h2>Registration:</h2>
+            <form action="/register" method="POST">
+                {% csrf_token %}
+                <div>
+                    <label>Name:</label>
+                    <input type="text" name='name' />
+                </div>
+                <div>
+                    <label>Alias:</label>
+                    <input type="text" name='alias' />
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <input type="text" name='email' />
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input type="password" name='password' />
+                    <label>*password should be at least 8 characters</label>
+                </div>
+                <div>
+                    <label>Confirm PW:</label>
+                    <input type="password" name='pw_confirmation' />
+                    <input type="submit" value="Register" />
+                </div>
+            </form>
+            <h2>Login:</h2>
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <div>
+                    <label>Email:</label>
+                    <input type="text" name='email' />
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input type="text" name='password' />
+                    <input type="submit" value="Login" />
+                </div>
+            </form>
+        </div>
+        <div>
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        </div>
+    </body>
+</html>

@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+#from ..book_authors.models import Book
 import bcrypt
 
 
@@ -64,6 +65,7 @@ class User(models.Model):
     name = models.CharField(max_length = 255)
     email = models.CharField(max_length = 255)
     password = models.CharField(max_length = 255)
+#    likes = models.ManyToManyField(Book, related_name="liked_by")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     objects = UserManager()
