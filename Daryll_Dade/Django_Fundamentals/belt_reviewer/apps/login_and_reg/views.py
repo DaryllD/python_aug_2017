@@ -18,8 +18,15 @@ def index(request):
 def login(request):
     if request.method == "POST":
         errors = User.objects.validateLogin(request.POST)
+    #    print type(errors)
 
-    # if not error in errors:
+    #check if we got an array of errors or a User object and respond accordingly
+    # if errors:
+        flashErrors(request, errors)
+    # else:
+    #    Print user
+        # user_id=user.id
+    # if not errors:
     #     user = User.objects.filter(email = request.POST['email']).first()
     #     if user:
     #         password = str(request.POST['password'])
@@ -29,7 +36,8 @@ def login(request):
     #             request.session['user_id'] = user.idea
     #         errors.append("Invalid account information")
     # flashErrors(request, errors)
-    return redirect('/')
+        return render(request, 'login_and_reg/index.html')
+#    return redirect('login_and_reg/index')
 
 def register(request):
     print "Inside the register function"
@@ -43,7 +51,7 @@ def register(request):
         #     return redirect('books/index')
 
 
-    return redirect('/login_and_reg/index')
+        return render(request, 'login_and_reg/index.html')
 
 def logout(request):
     request.session.flush()

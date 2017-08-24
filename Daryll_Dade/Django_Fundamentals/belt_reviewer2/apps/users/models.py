@@ -31,26 +31,27 @@ class UserManager(models.Manager):
             errors.append("Email is required.")
         if len(form_data['password']) == 0:
             errors.append("password is required.")
+
         return errors
         # if not EMAIL_REGEX.match(form_data['email']):
         #     errors.append('The email you entered is not in valid email format.')
         # else:
         #    errors.append('The email you entered is not in our database.')
 
-        if user:
-            user = User.objects.filter(email = form_data['email']).first()
-            password = str(form_data['password'])
-            if bcrypt.checkpw(password, str(user.password)) == False:
-                errors.append('The password you entered is invalid.')
-            else:
-                return user
-
-        return errors
+        # if user:
+        #     user = User.objects.filter(email = form_data['email']).first()
+        #     password = str(form_data['password'])
+        #     if bcrypt.checkpw(password, str(user.password)) == False:
+        #         errors.append('The password you entered is invalid.')
+        #     else:
+        #         return user
+        #
+        # return errors
 
 
     def createUser(self, form_data):
         password = str(form_data['password'])
-        hashed_pw = bcrypt.hashpw(password, bcrypt.gensalt())
+        hashed_pw = bcrypt.hashpw(password, bcrypt.gensalt(10))
         user = User.objects.create(
             name = form_data['name'],
             alias = form_data['alias'],
@@ -60,13 +61,26 @@ class UserManager(models.Manager):
         return user
 
     def currentUser(self, request):
-        return User.objects.get(id = request.session['user_id'])
+        id= request.session['user_id']
+
+        return User.objects.get(id=id)
 
 class User(models.Model):
     name = models.CharField(max_length=255)
     alias = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
-    password =models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     objects = UserManager()
+
+    def __str__(self):
+        string_output = "id: {}  name: {} alias: {} email: {} password: {}"
+
+        return string_output.format(
+            self.id,
+            self.name,
+            self.alias,
+            self.email,
+            self.password,
+        )
